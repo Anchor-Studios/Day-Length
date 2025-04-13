@@ -1,0 +1,12 @@
+{
+  "_fv": 57,
+  "_type": "gamerule",
+  "definition": {
+    "type": "Logic",
+    "displayName": "Real Time Sync",
+    "description": "Syncs Minecraft time with the server's real-world time.",
+    "category": "PLAYER",
+    "defaultValueLogic": false,
+    "defaultValueNumber": 0
+  }
+}

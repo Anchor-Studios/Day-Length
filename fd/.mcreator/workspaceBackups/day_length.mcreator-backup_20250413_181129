@@ -1,0 +1,147 @@
+{
+  "mod_elements": [
+    {
+      "name": "CustomDayLength",
+      "type": "gamerule",
+      "sortid": 2,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "customDayLength",
+      "metadata": {
+        "files": [],
+        "type": "number"
+      }
+    },
+    {
+      "name": "RealTimeSync",
+      "type": "gamerule",
+      "sortid": 1,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "realTimeSync",
+      "metadata": {
+        "files": [],
+        "type": "logic"
+      }
+    },
+    {
+      "name": "DayLengther",
+      "type": "procedure",
+      "sortid": 4,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "day_lengther",
+      "metadata": {
+        "files": [
+          "src/main/java/net/daylength/procedures/DayLengtherProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DayLengtherSynced",
+      "type": "procedure",
+      "sortid": 3,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "day_lengther_synced",
+      "metadata": {
+        "files": [
+          "src/main/java/net/daylength/procedures/DayLengtherSyncedProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "DayLengtherCustom",
+      "type": "procedure",
+      "sortid": 5,
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "day_lengther_custom",
+      "metadata": {
+        "files": [
+          "src/main/java/net/daylength/procedures/DayLengtherCustomProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PlayerSleeps",
+      "type": "procedure",
+      "compiles": true,
+      "locked_code": false,
+      "registry_name": "player_sleeps",
+      "metadata": {
+        "files": [
+          "src/main/java/net/daylength/procedures/PlayerSleepsProcedure.java"
+        ],
+        "dependencies": [
+          {
+            "name": "world",
+            "type": "world"
+          }
+        ]
+      }
+    }
+  ],
+  "variable_elements": [
+    {
+      "name": "time",
+      "type": "number",
+      "scope": "world",
+      "value": "0"
+    }
+  ],
+  "sound_elements": [],
+  "language_map": {
+    "en_us": {
+      "gamerule.customDayLength": "Custom Day Length",
+      "gamerule.realTimeSync": "Real Time Sync",
+      "gamerule.customDayLength.description": "Defines how many minutes should a day last.",
+      "gamerule.realTimeSync.description": "Syncs Minecraft time with the server\u0027s real-world time."
+    }
+  },
+  "foldersRoot": {
+    "name": "~",
+    "children": []
+  },
+  "workspaceSettings": {
+    "modid": "day_length",
+    "modName": "Day Length",
+    "version": "2025.3.1.1",
+    "description": "Day Length mod lets players customize Minecraft\u0027s day-night cycle and sync it with real-world time. Adjust day duration and smoothly transition between day and night, with an option to align in-game time to the server’s local time.  ",
+    "author": "Anchor Studios",
+    "websiteURL": "https://www.anchorstudios.site/wiki/day-length",
+    "license": "All Rights Reserved",
+    "disableForgeVersionCheck": true,
+    "serverSideOnly": true,
+    "modPicture": "daylengthbanner",
+    "requiredMods": [
+      "ancore"
+    ],
+    "dependencies": [],
+    "dependants": [],
+    "mcreatorDependencies": [],
+    "currentGenerator": "forge-1.19.2",
+    "credits": "Thanks to anyone who contributed.",
+    "modElementsPackage": "net.daylength",
+    "lockBaseModFiles": false
+  },
+  "mcreatorVersion": 202300224119
+}
