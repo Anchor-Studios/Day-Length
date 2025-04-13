@@ -1,5 +1,5 @@
 {
-  "_fv": 57,
+  "_fv": 77,
   "_type": "gamerule",
   "definition": {
     "type": "Number",
@@ -7,6 +7,6 @@
     "description": "Defines how many minutes should a day last.",
     "category": "PLAYER",
     "defaultValueLogic": false,
-    "defaultValueNumber": 1440
+    "defaultValueNumber": 20
   }
 }

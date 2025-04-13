@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="All Rights Reserved"
+
+[[mods]]
+modId="day_length"
+version="2025.3.1.1"
+displayName="Day Length"
+displayURL="https://www.anchorstudios.site/wiki/day-length"
+logoFile="logo.png"
+credits="Thanks to anyone who contributed."
+authors="Anchor Studios"
+description="Day Length mod lets players customize Minecraft's day-night cycle and sync it with real-world time. Adjust day duration and smoothly transition between day and night, with an option to align in-game time to the server\u2019s local time.  "
+displayTest="IGNORE_SERVER_VERSION"
+
+# Start of user code block mod configuration
+# End of user code block mod configuration
+
+[[dependencies.day_length]]
+    modId="neoforge"
+    type="required"
+    versionRange="[21.4.123,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.day_length]]
+    modId="minecraft"
+    type="required"
+    versionRange="[1.21.4]"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.day_length]]
+    modId="ancore"
+    type="required"
+    versionRange="[0,)"
+    ordering="NONE"
+    side="BOTH"
+
+
+
+# Start of user code block dependencies configuration
+# End of user code block dependencies configuration

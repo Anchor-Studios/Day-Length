@@ -1,24 +1,23 @@
 package net.daylength.procedures;
 
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
 
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.server.level.ServerLevel;
 
+import net.daylength.network.DayLengthModVariables;
 import net.daylength.init.DayLengthModGameRules;
 
 import javax.annotation.Nullable;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class DayLengtherCustomProcedure {
 	@SubscribeEvent
-	public static void onWorldTick(TickEvent.LevelTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			execute(event, event.level);
-		}
+	public static void onWorldTick(LevelTickEvent.Post event) {
+		execute(event, event.getLevel());
 	}
 
 	public static void execute(LevelAccessor world) {
@@ -26,13 +25,23 @@ public class DayLengtherCustomProcedure {
 	}
 
 	private static void execute(@Nullable Event event, LevelAccessor world) {
-		if (!world.getLevelData().getGameRules().getBoolean(DayLengthModGameRules.REALTIMESYNC)) {
-			if (0 == (world.getLevelData().getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH))) {
+		if (!(world instanceof ServerLevel _serverLevelGR0 && _serverLevelGR0.getGameRules().getBoolean(DayLengthModGameRules.REALTIMESYNC))) {
+			if (0 == (world instanceof ServerLevel _serverLevelGR1 ? _serverLevelGR1.getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH) : 0)) {
 				if (world instanceof ServerLevel _level)
-					_level.setDayTime((int) ((world.dayTime() + 20) - 1));
+					_level.setDayTime((int) (world.dayTime() - 1));
+			} else if (20 <= (world instanceof ServerLevel _serverLevelGR4 ? _serverLevelGR4.getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH) : 0)) {
+				if ((world instanceof ServerLevel _serverLevelGR5 ? _serverLevelGR5.getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH) : 0) / 20 <= DayLengthModVariables.MapVariables.get(world).counter) {
+					DayLengthModVariables.MapVariables.get(world).counter = 1;
+					DayLengthModVariables.MapVariables.get(world).syncData(world);
+				} else {
+					if (world instanceof ServerLevel _level)
+						_level.setDayTime((int) (world.dayTime() - 1));
+					DayLengthModVariables.MapVariables.get(world).counter = DayLengthModVariables.MapVariables.get(world).counter + 1;
+					DayLengthModVariables.MapVariables.get(world).syncData(world);
+				}
 			} else {
 				if (world instanceof ServerLevel _level)
-					_level.setDayTime((int) ((world.dayTime() + 20 / (world.getLevelData().getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH))) - 1));
+					_level.setDayTime((int) ((world.dayTime() + 20 / (world instanceof ServerLevel _serverLevelGR9 ? _serverLevelGR9.getGameRules().getInt(DayLengthModGameRules.CUSTOMDAYLENGTH) : 0)) - 1));
 			}
 		}
 	}
