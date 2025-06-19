@@ -1,6 +1,0 @@
-{
-  "gamerule.customDayLength": "Custom Day Length",
-  "gamerule.realTimeSync": "Real Time Sync",
-  "gamerule.customDayLength.description": "Defines how many minutes should a day last.",
-  "gamerule.realTimeSync.description": "Syncs Minecraft time with the server\u0027s real-world time."
-}
