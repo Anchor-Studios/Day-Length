@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 
 @Mod(DayLength.MODID)
 public class DayLength {
-    public static final String MODID = "day-length";
+    public static final String MODID = "daylength";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final long VANILLA_DAY_LENGTH = 24000L; // Ticks in a vanilla Minecraft day
     private static long lastRealTimeTick = 0;
