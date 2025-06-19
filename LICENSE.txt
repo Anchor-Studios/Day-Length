@@ -8,8 +8,8 @@ You may use, modify, and redistribute this mod for personal or educational purpo
 2. Credit Required
 You must provide appropriate credit by naming "Anchor Studios" as the original creator in any public distribution of this mod, including modpacks and modified versions.
 The credit must also include a link to at least one of the official distribution pages:
-- Modrinth: https://modrinth.com/mod/petting
-- CurseForge: https://www.curseforge.com/minecraft/mc-mods/petting
+- Modrinth: https://modrinth.com/mod/day-length
+- CurseForge: https://www.curseforge.com/minecraft/mc-mods/day-length
 
 3. Modifications Allowed
 You may create and share modified versions or derivative works of this mod. If redistributed:
@@ -27,17 +27,17 @@ Monetization of modpacks (e.g., through ads, hosting platforms, or sponsorships)
 - This mod is not presented as the sole or primary content of the modpack
 
 5. Monetized Add-ons Allowed
-You may create and monetize add-ons for the Petting mod, under the following conditions:
-- The add-on must require the original Petting mod (as published on the official platforms) as a dependency
-- The original Petting mod must not be bundled directly within the add-on
-- The add-on must not rehost or modify the Petting mod itself
+You may create and monetize add-ons for the Day Length mod, under the following conditions:
+- The add-on must require the original Day Length mod (as published on the official platforms) as a dependency
+- The original Day Length mod must not be bundled directly within the add-on
+- The add-on must not rehost or modify the Day Length mod itself
 - Proper credit to Anchor Studios must be included, along with a link to the Modrinth or CurseForge page
 
 6. No Warranty
 This mod is provided “as is”, without warranty of any kind. Anchor Studios is not responsible for any damages, data loss, or other issues resulting from its use.
 
 7. No Unauthorized Rehosting
-You may not upload, mirror, or redistribute the original Petting mod file (or modified versions of it) on third-party websites or platforms outside of these exceptions:
+You may not upload, mirror, or redistribute the original Day Length mod file (or modified versions of it) on third-party websites or platforms outside of these exceptions:
 Distribution as part of a modpack, under the conditions of Section 4
 Distribution of add-ons, under the conditions of Section 5
 In all cases:

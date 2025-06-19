@@ -1,21 +1,35 @@
 {
-  "petting": {
-    "homepage": "https://www.anchorstudios.site/wiki/petting",
+  "day-length": {
+    "homepage": "https://www.anchorstudios.site/wiki/day-length",
     "promos": {
-      "1.20.1-forge-latest": "3.0.0",
-      "1.20.1-forge-recommended": "3.0.0",
-      "1.20.6-neoforge-latest": "3.0.0",
-      "1.20.6-neoforge-recommended": "3.0.0",
-      "1.21.1-neoforge-latest": "3.0.0",
-      "1.21.1-neoforge-recommended": "3.0.0"
+      "1.14.4-forge-latest": "2025.3.1.0",
+      "1.14.4-forge-recommended": "2025.3.1.0",
+      "1.16.5-forge-latest": "2025.3.1.0",
+      "1.16.5-forge-recommended": "2025.3.1.0",
+      "1.18.2-forge-latest": "2025.3.1.0",
+      "1.18.2-forge-recommended": "2025.3.1.0",
+	  "1.19.2-forge-latest": "2025.3.1.0",
+      "1.19.2-forge-recommended": "2025.3.1.0",
+	  "1.19.4-forge-latest": "2025.3.1.0",
+      "1.19.4-forge-recommended": "2025.3.1.0",
+	  "1.20.1-forge-latest": "2.0.0",
+      "1.20.1-forge-recommended": "2.0.0",
+      "1.21.1-neoforge-latest": "2025.4.1.2",
+      "1.21.1-neoforge-recommended": "2025.4.1.2",
+	  "1.21.4-neoforge-latest": "2025.4.1.2",
+      "1.21.4-neoforge-recommended": "2025.4.1.2"
     },
-    "2.0.4": {
-      "changes": "https://github.com/Anchor-Studios/Petting/releases/tag/2.0.4",
-      "downloadUrl": "https://www.anchorstudios.site/wiki/petting/download"
+    "2025.4.1.2": {
+      "changes": "https://github.com/Anchor-Studios/Day-Length/releases/tag/2025.4.1.2",
+      "downloadUrl": "https://www.anchorstudios.site/wiki/day-length/download"
     },
-    "3.0.0": {
-      "changes": "https://github.com/Anchor-Studios/Petting/releases/tag/3.0.0",
-      "downloadUrl": "https://www.anchorstudios.site/wiki/petting/download"
+	"2025.3.1.0": {
+      "changes": "https://github.com/Anchor-Studios/Day-Length/releases/tag/2025.3.1.0",
+      "downloadUrl": "https://www.anchorstudios.site/wiki/day-length/download"
+    },
+    "2.0.0": {
+      "changes": "https://github.com/Anchor-Studios/Day-Length/releases/tag/2.0.0",
+      "downloadUrl": "https://www.anchorstudios.site/wiki/day-length/download"
     }
   }
 }
