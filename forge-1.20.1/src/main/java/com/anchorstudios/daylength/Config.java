@@ -32,7 +32,7 @@ public class Config {
 
             smoothTimeTransition = builder
                     .comment("Controls whether time changes — such as switching time zones, enabling real-time sync or updating custom day length — happen instantly or gradually.")
-                    .define("smoothTimeTransition", false);
+                    .define("smoothTimeTransition", true);
 
             smoothTransitionDuration = builder
                     .comment("How many real-world seconds the transition to a new time should take when smoothTimeTransition is true.")
