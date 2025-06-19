@@ -37,7 +37,7 @@ public class DayLength {
     }
     private static final TransitionState transitionState = new TransitionState();
 
-    // Custom game rules with minimum value 0
+    // Custom game rules
     public static final GameRules.Key<GameRules.IntegerValue> RULE_CUSTOMDAYLENGTH = GameRules.register(
             "customDayLength",
             GameRules.Category.UPDATES,
@@ -61,6 +61,13 @@ public class DayLength {
         LOGGER.info("Day Length mod initialized!");
     }
 
+    @SubscribeEvent
+    public void onServerStarted(ServerStartedEvent event) {
+        // Disable vanilla daylight cycle when our mod is active
+        MinecraftServer server = event.getServer();
+        server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
+    }
+
     @Mod.EventBusSubscriber(modid = DayLength.MODID)
     public static class TimeTickHandler {
         @SubscribeEvent
@@ -69,6 +76,9 @@ public class DayLength {
 
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             if (server == null) return;
+
+            // Ensure daylight cycle is always disabled
+            server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
 
             for (ServerLevel level : server.getAllLevels()) {
                 long newTime = calculateTime(level, server);
@@ -89,7 +99,7 @@ public class DayLength {
 
             // If day length is 0, time is frozen
             if (customDayLength == 0) {
-                return level.getDayTime(); // Return current time without advancing
+                return level.getDayTime();
             }
 
             // Vanilla day length behavior
@@ -117,14 +127,13 @@ public class DayLength {
 
                 if (currentTime < transitionState.startTime + transitionDuration) {
                     double factor = (double)(currentTime - transitionState.startTime) / transitionDuration;
-                    factor = factor * factor * (3 - 2 * factor); // Smoothstep interpolation
+                    factor = factor * factor * (3 - 2 * factor);
                     return (long)(transitionState.startTick + (transitionState.targetTick - transitionState.startTick) * factor);
                 } else {
                     transitionState.active = false;
                 }
             }
 
-            // Start new transition if needed
             if (config.smoothTimeTransition.get() &&
                     Math.abs(targetTick - level.getDayTime()) > 100) {
                 transitionState.startTime = server.getTickCount() * 50;
