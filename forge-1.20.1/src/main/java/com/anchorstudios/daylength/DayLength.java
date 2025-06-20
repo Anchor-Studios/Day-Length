@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod(DayLength.MODID)
 public class DayLength {
@@ -27,6 +29,7 @@ public class DayLength {
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final long VANILLA_DAY_LENGTH = 24000L;
     private static final long VANILLA_DAY_DURATION = 1200L;
+    private static final Map<ServerLevel, Double> timeAccumulator = new HashMap<>();
 
     // Transition state
     private static class TransitionState {
@@ -108,8 +111,16 @@ public class DayLength {
             }
 
             // Custom day length progression
-            double speedFactor = (20.0 * 60.0) / (customDayLength * 60.0);
-            return level.getDayTime() + (long)(speedFactor * 1.0);
+            double speedFactor = (20.0 * 60.0) / (customDayLength * 60.0); // ticks per tick
+            double accumulated = timeAccumulator.getOrDefault(level, 0.0);
+            accumulated += speedFactor;
+
+            long ticksToAdd = (long) accumulated;
+            accumulated -= ticksToAdd;
+
+            timeAccumulator.put(level, accumulated);
+            return level.getDayTime() + ticksToAdd;
+
         }
 
         private static long calculateRealTime(ServerLevel level, MinecraftServer server) {
