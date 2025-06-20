@@ -1,0 +1,8 @@
+{
+  "daylength.configuration.title": "Day Length Configs",
+  "daylength.configuration.section.daylength.common.toml": "Day Length Configs",
+  "daylength.configuration.section.daylength.common.toml.title": "Day Length Configs",
+  "daylength.configuration.useServerTime": "Use Server Time",
+  "daylength.configuration.magicNumberIntroduction": "Magic Number Text",
+  "daylength.configuration.magicNumber": "Magic Number"
+}
