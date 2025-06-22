@@ -6,7 +6,6 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-// This class will not load on dedicated servers. Accessing client side code from here is safe.
 @Mod(value = DayLength.MODID, dist = Dist.CLIENT)
 public class DayLengthClient {
     public DayLengthClient(ModContainer container) {
