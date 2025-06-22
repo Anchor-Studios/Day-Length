@@ -14,12 +14,6 @@ The **Day Length** mod by Anchor Studios lets you customize the length of Minecr
 
 ---
 
-## Compatibility
-
-- Minecraft version(s) supported: 1.20.1 (Forge)
-
----
-
 ## License
 
 [Custom License](https://raw.githubusercontent.com/Anchor-Studios/Day-Length/refs/heads/main/LICENSE.txt), Anchor Studios.
