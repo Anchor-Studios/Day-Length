@@ -1,10 +1,12 @@
 package com.anchorstudios.daylength;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.GameRules;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -28,7 +30,6 @@ public class DayLength {
     public static final String MODID = "daylength";
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final long VANILLA_DAY_LENGTH = 24000L;
-    private static final long VANILLA_DAY_DURATION = 1200L;
     private static final Map<ServerLevel, Double> timeAccumulator = new HashMap<>();
     private static boolean isSleeping = false;
 
@@ -53,6 +54,15 @@ public class DayLength {
             GameRules.Category.UPDATES,
             GameRules.BooleanValue.create(false)
     );
+
+    @SubscribeEvent
+    public void onCommand(CommandEvent event) {
+        if (event.getParseResults().getReader().getString().contains("gamerule doDaylightCycle")) {
+            event.setCanceled(true);
+            event.getParseResults().getContext().getSource().sendSuccess(() ->
+                    Component.translatable("daylength.message.daylight_cycle_disabled"), false);
+        }
+    }
 
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
