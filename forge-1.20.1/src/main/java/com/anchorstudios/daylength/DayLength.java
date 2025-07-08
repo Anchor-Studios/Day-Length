@@ -32,9 +32,6 @@ public class DayLength {
     private static final Map<ServerLevel, Double> timeAccumulator = new HashMap<>();
     private static boolean isSleeping = false;
 
-    // Stores the previous custom day length before it was disabled
-    private static final Map<ServerLevel, Integer> previousDayLengths = new HashMap<>();
-
     // Transition state
     private static class TransitionState {
         long startTime;
@@ -59,50 +56,9 @@ public class DayLength {
 
     @SubscribeEvent
     public void onServerStarted(ServerStartedEvent event) {
-        MinecraftServer server = event.getServer();
-        // Initialize daylight cycle tracking
-        trackDaylightCycleChanges(server);
         // Disable vanilla daylight cycle when our mod is active
+        MinecraftServer server = event.getServer();
         server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
-    }
-
-    private void trackDaylightCycleChanges(MinecraftServer server) {
-        // Store the initial state when the server starts
-        for (ServerLevel level : server.getAllLevels()) {
-            GameRules rules = level.getGameRules();
-            if (!rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
-                int currentLength = rules.getInt(RULE_CUSTOMDAYLENGTH);
-                if (currentLength != 0) {
-                    previousDayLengths.put(level, currentLength);
-                    rules.getRule(RULE_CUSTOMDAYLENGTH).set(0, server);
-                }
-            }
-        }
-
-        // Check for changes every tick
-        MinecraftForge.EVENT_BUS.addListener((TickEvent.ServerTickEvent event) -> {
-            if (event.phase != TickEvent.Phase.END) return;
-
-            for (ServerLevel level : server.getAllLevels()) {
-                GameRules rules = level.getGameRules();
-                boolean doDaylight = rules.getBoolean(GameRules.RULE_DAYLIGHT);
-
-                if (doDaylight) {
-                    // Daylight cycle enabled - restore previous custom day length if we have one stored
-                    if (previousDayLengths.containsKey(level)) {
-                        rules.getRule(RULE_CUSTOMDAYLENGTH).set(previousDayLengths.get(level), server);
-                        previousDayLengths.remove(level);
-                    }
-                } else {
-                    // Daylight cycle disabled - store current custom day length and set to 0
-                    int currentLength = rules.getInt(RULE_CUSTOMDAYLENGTH);
-                    if (currentLength != 0 && !previousDayLengths.containsKey(level)) {
-                        previousDayLengths.put(level, currentLength);
-                        rules.getRule(RULE_CUSTOMDAYLENGTH).set(0, server);
-                    }
-                }
-            }
-        });
     }
 
     public DayLength(FMLJavaModLoadingContext context) {
