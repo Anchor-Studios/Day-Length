@@ -30,6 +30,10 @@ public class DayLength {
     private static final long VANILLA_DAY_LENGTH = 24000L;
     private static final long VANILLA_DAY_DURATION = 1200L;
     private static final Map<ServerLevel, Double> timeAccumulator = new HashMap<>();
+    private static boolean isSleeping = false;
+
+    // Stores the previous custom day length before it was disabled
+    private static final Map<ServerLevel, Integer> previousDayLengths = new HashMap<>();
 
     // Transition state
     private static class TransitionState {
@@ -53,6 +57,54 @@ public class DayLength {
             GameRules.BooleanValue.create(false)
     );
 
+    @SubscribeEvent
+    public void onServerStarted(ServerStartedEvent event) {
+        MinecraftServer server = event.getServer();
+        // Initialize daylight cycle tracking
+        trackDaylightCycleChanges(server);
+        // Disable vanilla daylight cycle when our mod is active
+        server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
+    }
+
+    private void trackDaylightCycleChanges(MinecraftServer server) {
+        // Store the initial state when the server starts
+        for (ServerLevel level : server.getAllLevels()) {
+            GameRules rules = level.getGameRules();
+            if (!rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
+                int currentLength = rules.getInt(RULE_CUSTOMDAYLENGTH);
+                if (currentLength != 0) {
+                    previousDayLengths.put(level, currentLength);
+                    rules.getRule(RULE_CUSTOMDAYLENGTH).set(0, server);
+                }
+            }
+        }
+
+        // Check for changes every tick
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.ServerTickEvent event) -> {
+            if (event.phase != TickEvent.Phase.END) return;
+
+            for (ServerLevel level : server.getAllLevels()) {
+                GameRules rules = level.getGameRules();
+                boolean doDaylight = rules.getBoolean(GameRules.RULE_DAYLIGHT);
+
+                if (doDaylight) {
+                    // Daylight cycle enabled - restore previous custom day length if we have one stored
+                    if (previousDayLengths.containsKey(level)) {
+                        rules.getRule(RULE_CUSTOMDAYLENGTH).set(previousDayLengths.get(level), server);
+                        previousDayLengths.remove(level);
+                    }
+                } else {
+                    // Daylight cycle disabled - store current custom day length and set to 0
+                    int currentLength = rules.getInt(RULE_CUSTOMDAYLENGTH);
+                    if (currentLength != 0 && !previousDayLengths.containsKey(level)) {
+                        previousDayLengths.put(level, currentLength);
+                        rules.getRule(RULE_CUSTOMDAYLENGTH).set(0, server);
+                    }
+                }
+            }
+        });
+    }
+
     public DayLength(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
         modEventBus.addListener(this::commonSetup);
@@ -64,13 +116,6 @@ public class DayLength {
         LOGGER.info("Day Length mod initialized!");
     }
 
-    @SubscribeEvent
-    public void onServerStarted(ServerStartedEvent event) {
-        // Disable vanilla daylight cycle when our mod is active
-        MinecraftServer server = event.getServer();
-        server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
-    }
-
     @Mod.EventBusSubscriber(modid = DayLength.MODID)
     public static class TimeTickHandler {
         @SubscribeEvent
@@ -80,17 +125,28 @@ public class DayLength {
             MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
             if (server == null) return;
 
-            // Ensure daylight cycle is always disabled
-            server.getGameRules().getRule(GameRules.RULE_DAYLIGHT).set(false, server);
+            // Check if players are sleeping
+            boolean allPlayersSleeping = server.getPlayerList().getPlayers().stream()
+                    .allMatch(player -> player.isSleeping() || !player.level().dimensionType().natural());
+            isSleeping = allPlayersSleeping && !server.getPlayerList().getPlayers().isEmpty();
 
             for (ServerLevel level : server.getAllLevels()) {
                 long newTime = calculateTime(level, server);
-                level.setDayTime(newTime);
+
+                // Only set time if not in realtime sync mode or if sleeping
+                if (!level.getGameRules().getBoolean(RULE_REALTIMESYNC) || isSleeping) {
+                    level.setDayTime(newTime);
+                }
             }
         }
 
         private static long calculateTime(ServerLevel level, MinecraftServer server) {
             GameRules rules = level.getGameRules();
+
+            // Handle sleep time acceleration
+            if (isSleeping) {
+                return level.getDayTime() + (VANILLA_DAY_LENGTH / 100); // Fast-forward time during sleep
+            }
 
             // Real time sync takes priority
             if (rules.getBoolean(RULE_REALTIMESYNC)) {
@@ -120,7 +176,6 @@ public class DayLength {
 
             timeAccumulator.put(level, accumulated);
             return level.getDayTime() + ticksToAdd;
-
         }
 
         private static long calculateRealTime(ServerLevel level, MinecraftServer server) {
